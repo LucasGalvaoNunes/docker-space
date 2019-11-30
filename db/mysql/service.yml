@@ -1,0 +1,52 @@
+version: "3.7"
+networks:
+  webproxy:
+    external: true
+services:
+  mysql:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $PWD/data:/var/lib/mysql
+    networks:
+      webproxy:
+        aliases:
+          - "mysql.localhost"
+    ports:
+      - "3306:3306"
+    hostname: "mysql.localhost"
+    extra_hosts:
+      - "docker.localhost:172.17.0.1"
+    labels:
+      - "traefik.docker.network=webproxy"
+      - "traefik.backend=mysql.localhost"
+      - "traefik.frontend=mysql.localhost"
+      - "traefik.frontend.rule=Host:mysql.localhost"
+      - "traefik.enable=true"
+      - "traefik.port=3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root"
+      - "MYSQL_DATABASE=mysql"
+      - "MYSQL_USER=mysql"
+      - "MYSQL_PASSWORD=root"
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: vip
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.90"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 50M
+

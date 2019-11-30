@@ -1,0 +1,46 @@
+version: "3.7"
+networks:
+  webproxy:
+    external: true
+services:
+  traefik:
+    image: traefik:v1.7
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $PWD/traefik.toml:/traefik.toml
+      - $PWD/acme.json:/acme.json
+    networks:
+      webproxy:
+        aliases:
+          - "traefik.localhost"
+    hostname: "traefik.localhost"
+    extra_hosts:
+      - "docker.localhost:172.17.0.1"
+    ports:
+      - "80:80"
+    command:
+      - '--configFile=/traefik.toml \'
+      - "--logLevel=DEBUG"
+    labels:
+      - "traefik.docker.network=webproxy"
+      - "traefik.backend=traefik.localhost"
+      - "traefik.frontend.rule=Host:traefik.localhost"
+      - "traefik.port=8080"
+      - "traefik.enable=true"
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 50M

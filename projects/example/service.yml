@@ -1,0 +1,47 @@
+version: "3.7"
+networks:
+  webproxy:
+    external: true
+services:
+  example:
+    image: richarvey/nginx-php-fpm:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $PWD/example:/var/www/html:rw
+    networks:
+      webproxy:
+        aliases:
+          - "example.localhost"
+    hostname: "example.localhost"
+    extra_hosts:
+      - "docker.localhost:172.17.0.1"
+    ports:
+      - "80"
+    environment:
+      - "ENV_EXAMPLE=TEST"
+    labels:
+      - "traefik.docker.network=webproxy"
+      - "traefik.backend=example.localhost"
+      - "traefik.frontend=example.localhost"
+      - "traefik.frontend.rule=Host:example.localhost"
+      - "traefik.enable=true"
+      - "traefik.port=80"
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: vip
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 50M

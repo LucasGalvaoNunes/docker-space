@@ -1,0 +1,44 @@
+version: "3.7"
+networks:
+  webproxy:
+    external: true
+services:
+  portainer:
+    image: portainer/portainer:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $PWD/data:/data:rw
+    networks:
+      webproxy:
+        aliases:
+          - "portainer.localhost"
+    hostname: "portainer.localhost"
+    extra_hosts:
+      - "docker.localhost:172.17.0.1"
+    ports:
+      - "9000"
+    labels:
+      - "traefik.docker.network=webproxy"
+      - "traefik.backend=portainer.localhost"
+      - "traefik.frontend=portainer.localhost"
+      - "traefik.frontend.rule=Host:portainer.localhost"
+      - "traefik.enable=true"
+      - "traefik.port=9000"
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 50M
+
