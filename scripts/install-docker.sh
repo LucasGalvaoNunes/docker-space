@@ -30,6 +30,7 @@ sudo usermod -aG docker $USER
 ## Add permission to folders of docker for your user
 sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
 sudo chmod g+rwx "$HOME/.docker" -R
+
 printf "\n\n"
 printf " ------- OK - DOCKER INSTALLED"
 printf "\n"

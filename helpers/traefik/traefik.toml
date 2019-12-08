@@ -11,8 +11,7 @@ entrypoint="dashboard"
 
 [docker]
 endpoint = "unix:///var/run/docker.sock"
-domain = "docker.localhost.com"
+domain = "docker.localhost"
 watch = true
 network = "webproxy"
-swarmMode = false
 swarmModeRefreshSeconds = 15

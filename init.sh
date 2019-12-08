@@ -45,7 +45,7 @@ fi
 
 prompt_confirm "Create default services, database and helpers?"
 if [ $? -eq 0 ]; then
-  bash "$CREATE_AMBIENTE_SCRIPT" ${ROOT_FOLDER}
+  bash "$CREATE_AMBIENTE_SCRIPT" "${ROOT_FOLDER}"
 fi
 
 prompt_confirm "Create hosts for default containers?"
@@ -60,7 +60,7 @@ printf "Lazydocker is a simple terminal UI for both docker and docker-compose, w
 printf "\n"
 prompt_confirm "Do you wanted to install LazyDocker?"
 if [ $? -eq 0 ]; then
-  bash "$CREATE_HOSTS_SCRIPT"
+  bash "$LAZYDOCKER_INSTALL_SCRIPT"
 fi
 
 printf "\n\n"

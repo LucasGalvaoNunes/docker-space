@@ -5,31 +5,30 @@ networks:
 services:
   mysql:
     image: mysql:5.7
-    command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=mysql_native_password --innodb-use-native-aio=0 --ignore-db-dir=lost+found
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - $PWD/data:/var/lib/mysql
+      - $PWD/conf.d/:/etc/mysql/conf.d
+      - $PWD/data:/var/lib/mysql:rw
     networks:
       webproxy:
         aliases:
-          - "mysql.localhost.com"
+          - "mysql.localhost"
     ports:
       - "3306:3306"
-    hostname: "mysql.localhost.com"
+    hostname: "mysql.localhost"
     extra_hosts:
-      - "docker.localhost.com:172.17.0.1"
+      - "docker.localhost:172.17.0.1"
     labels:
       - "traefik.docker.network=webproxy"
-      - "traefik.backend=mysql.localhost.com"
-      - "traefik.frontend=mysql.localhost.com"
-      - "traefik.frontend.rule=Host:mysql.localhost.com"
+      - "traefik.backend=mysql.docker.local"
+      - "traefik.frontend=mysql.docker.local"
+      - "traefik.frontend.rule=Host:mysql.docker.local"
       - "traefik.enable=true"
       - "traefik.port=3306"
     environment:
       - "MYSQL_ROOT_PASSWORD=root"
       - "MYSQL_DATABASE=mysql"
-      - "MYSQL_USER=mysql"
-      - "MYSQL_PASSWORD=root"
     deploy:
       mode: replicated
       replicas: 1
@@ -49,4 +48,3 @@ services:
         reservations:
           cpus: "0.25"
           memory: 50M
-

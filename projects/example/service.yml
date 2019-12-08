@@ -3,7 +3,7 @@ networks:
   webproxy:
     external: true
 services:
-  example:
+  hiperconveniencias:
     image: richarvey/nginx-php-fpm:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -11,19 +11,27 @@ services:
     networks:
       webproxy:
         aliases:
-          - "example.localhost.com"
-    hostname: "example.localhost.com"
+          - "example.localhost"
+    hostname: "example.localhost"
     extra_hosts:
-      - "docker.localhost.com:172.17.0.1"
+      - "docker.local.com:172.17.0.1"
     ports:
       - "80"
+    ## To more Environmet for this image see: https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/scripting_templating.md#using-environment-variables--templating
     environment:
-      - "ENV_EXAMPLE=TEST"
+      - "PUID=1000"
+      - "PGID=1000"
+      - "WEBROOT=/var/www/html/public"
+      - "SKIP_COMPOSER=1"
+      - "REMOVE_FILES=0"
+      - "ENABLE_XDEBUG=1"
+      - "XDEBUG_CONFIG=remote_host=172.17.0.1"
+      - "PHP_IDE_CONFIG=serverName=example.localhost"
     labels:
       - "traefik.docker.network=webproxy"
-      - "traefik.backend=example.localhost.com"
-      - "traefik.frontend=example.localhost.com"
-      - "traefik.frontend.rule=Host:example.localhost.com"
+      - "traefik.backend=example.localhost"
+      - "traefik.frontend=example.localhost"
+      - "traefik.frontend.rule=Host:example.localhost"
       - "traefik.enable=true"
       - "traefik.port=80"
     deploy:
