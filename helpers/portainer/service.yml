@@ -11,17 +11,17 @@ services:
     networks:
       webproxy:
         aliases:
-          - "portainer.localhost"
-    hostname: "portainer.localhost"
+          - "portainer.localhost.com"
+    hostname: "portainer.localhost.com"
     extra_hosts:
-      - "docker.localhost:172.17.0.1"
+      - "docker.localhost.com:172.17.0.1"
     ports:
       - "9000"
     labels:
       - "traefik.docker.network=webproxy"
-      - "traefik.backend=portainer.localhost"
-      - "traefik.frontend=portainer.localhost"
-      - "traefik.frontend.rule=Host:portainer.localhost"
+      - "traefik.backend=portainer.localhost.com"
+      - "traefik.frontend=portainer.localhost.com"
+      - "traefik.frontend.rule=Host:portainer.localhost.com"
       - "traefik.enable=true"
       - "traefik.port=9000"
     deploy:
