@@ -12,10 +12,10 @@ services:
     networks:
       webproxy:
         aliases:
-          - "traefik.localhost"
-    hostname: "traefik.localhost"
+          - "traefik.local.com"
+    hostname: "traefik.local.com"
     extra_hosts:
-      - "docker.localhost:172.17.0.1"
+      - "docker.local.com:172.17.0.1"
     ports:
       - "80:80"
     command:
@@ -23,8 +23,8 @@ services:
       - "--logLevel=DEBUG"
     labels:
       - "traefik.docker.network=webproxy"
-      - "traefik.backend=traefik.localhost"
-      - "traefik.frontend.rule=Host:traefik.localhost"
+      - "traefik.backend=traefik.local.com"
+      - "traefik.frontend.rule=Host:traefik.local.com"
       - "traefik.port=8080"
       - "traefik.enable=true"
     deploy:

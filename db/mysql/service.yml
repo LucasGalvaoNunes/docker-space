@@ -13,12 +13,12 @@ services:
     networks:
       webproxy:
         aliases:
-          - "mysql.localhost"
+          - "mysql.local.com"
     ports:
       - "3306:3306"
-    hostname: "mysql.localhost"
+    hostname: "mysql.local.com"
     extra_hosts:
-      - "docker.localhost:172.17.0.1"
+      - "docker.local.com:172.17.0.1"
     labels:
       - "traefik.docker.network=webproxy"
       - "traefik.backend=mysql.docker.local"

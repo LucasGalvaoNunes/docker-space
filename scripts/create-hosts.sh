@@ -5,18 +5,18 @@ printf "\n"
 printf "CREATING HOSTS FOR THE NEW CONTAINERS ..."
 printf "\n"
 
-sudo echo "127.0.0.1         mysql.localhost" >> /etc/hosts
-sudo echo "127.0.0.1         portainer.localhost" >> /etc/hosts
-sudo echo "127.0.0.1         traefik.localhost" >> /etc/hosts
-printf "\n\n"
+echo '127.0.0.1       portainer.local.com' | sudo tee -a /etc/hosts
+echo '127.0.0.1       mysql.local.com' | sudo tee -a /etc/hosts
+echo '127.0.0.1       traefik.local.com' | sudo tee -a /etc/hosts
 
+printf "\n\n"
 printf " ------- OK - NEW HOSTS ADDED"
 printf "\n"
-printf " ------- mysql.localhost"
+printf " ------- mysql.local.com"
 printf "\n"
-printf " ------- portainer.localhost"
+printf " ------- portainer.local.com"
 printf "\n"
-printf " ------- traefik.localhost"
+printf " ------- traefik.local.com"
 printf "\n"
 printf "====================================="
 printf "\n\n"

@@ -5,10 +5,9 @@ ROOT_FOLDER=$(pwd)
 IMAGES_DOCKER="Traefik, Portainer, NginxPHP"
 
 STOP_SERVICES_SCRIPT="${ROOT_FOLDER}/scripts/stop-services.sh"
-DOCKER_INSTALL_SCRIPT="${ROOT_FOLDER}/scripts/install-docker.sh"
 LAZYDOCKER_INSTALL_SCRIPT="${ROOT_FOLDER}/scripts/install-lazydocker.sh"
 DOCKER_IMAGES_SCRIPT="${ROOT_FOLDER}/scripts/pull-images.sh"
-CREATE_AMBIENTE_SCRIPT="${ROOT_FOLDER}/scripts/create-ambiente.sh"
+CREATE_AMBIENTE_SCRIPT="${ROOT_FOLDER}/scripts/create-environment.sh"
 CREATE_HOSTS_SCRIPT="${ROOT_FOLDER}/scripts/create-hosts.sh"
 
 prompt_confirm() {
@@ -31,11 +30,6 @@ prompt_confirm() {
 prompt_confirm "Disable auto start service like Apache and Mysql?"
 if [ $? -eq 0 ]; then
   bash "$STOP_SERVICES_SCRIPT"
-fi
-
-prompt_confirm "Intall docker and docker swarm?"
-if [ $? -eq 0 ]; then
-  bash "$DOCKER_INSTALL_SCRIPT"
 fi
 
 prompt_confirm "Pull the (${IMAGES_DOCKER}) images of docker hub?"

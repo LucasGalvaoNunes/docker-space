@@ -1,6 +1,4 @@
-
 #!/bin/bash
-
 printf "\n\n"
 printf "====================================="
 printf "\n"
@@ -15,7 +13,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 ## Add repository of docker to ubuntu
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
-## Update list 
+## Update list
 sudo apt-get update
 
 ## Install docker-ce and your services
@@ -36,17 +34,5 @@ printf " ------- OK - DOCKER INSTALLED"
 printf "\n"
 printf "INIT DOCKER SWARM ..."
 printf "\n"
-## Install net-tools
-sudo apt install net-tools
-
-## Ger default interface to add in a swarm
-INTERFACE=$(route | grep '^default' | grep -o '[^ ]*$')
-docker swarm init --advertise-addr $INTERFACE
-docker network create -d overlay webproxy
-printf "\n\n"
-printf " ------- OK - DOCKER SWARM INSTALLED"
-printf "\n"
-printf "====================================="
-printf "\n\n"
 
 

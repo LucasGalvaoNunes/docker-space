@@ -11,8 +11,8 @@ services:
     networks:
       webproxy:
         aliases:
-          - "example.localhost"
-    hostname: "example.localhost"
+          - "example.local.com"
+    hostname: "example.local.com"
     extra_hosts:
       - "docker.local.com:172.17.0.1"
     ports:
@@ -26,12 +26,12 @@ services:
       - "REMOVE_FILES=0"
       - "ENABLE_XDEBUG=1"
       - "XDEBUG_CONFIG=remote_host=172.17.0.1"
-      - "PHP_IDE_CONFIG=serverName=example.localhost"
+      - "PHP_IDE_CONFIG=serverName=example.local.com"
     labels:
       - "traefik.docker.network=webproxy"
-      - "traefik.backend=example.localhost"
-      - "traefik.frontend=example.localhost"
-      - "traefik.frontend.rule=Host:example.localhost"
+      - "traefik.backend=example.local.com"
+      - "traefik.frontend=example.local.com"
+      - "traefik.frontend.rule=Host:example.local.com"
       - "traefik.enable=true"
       - "traefik.port=80"
     deploy:
