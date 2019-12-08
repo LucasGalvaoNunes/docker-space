@@ -1,4 +1,5 @@
 # Docker Space
+![Docker](https://repository-images.githubusercontent.com/224943779/294f1b00-19d5-11ea-92d8-cf2c1060428d)
 This is a workspace fully configured to use docker and swarm to manage your containers.
 
 ## Folder Structure
